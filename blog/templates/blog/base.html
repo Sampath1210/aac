@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+	{% if title %}
+	<title>
+	</title>
+	{% else %}
+	<title></title>
+	{% endif %}
+	<style>
+		.ball {
+ 	 	position: absolute;
+ 	 	border-radius: 100%;
+ 		opacity: 0.7;
+  		z-index: -2;
+}
+</style>
+
+</head>
+<body>
+	<header class="site-header">
+	  <nav class="navbar navbar-expand-md bg-steel fixed-top">
+	      <h2><a style="color:black" class="navbar-brand mr-4" href="{% url 'blog-home' %}">.CONNECT</a></h2>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	      </button>
+	      <div class="collapse navbar-collapse" id="navbarToggle">
+	        <div class="navbar-nav mr-auto">
+	          <a class="nav-item nav-link" style="font-size: 120%" href="{% url 'blog-home' %}">Home</a>
+	          <a class="nav-item nav-link" style="font-size: 120%" href="{% url 'blog-about' %}">About</a>
+	        </div>
+	        <!-- Navbar Right Side -->
+	        <div class="navbar-nav">
+	        	{% if user.is_authenticated %}
+	        		<a class="nav-item nav-link" style="font-size: 120%" href="{% url 'post-create' %}">New Post</a>
+	          		<a class="nav-item nav-link" style="font-size: 120%" href="{% url 'profile' %}">Profile</a>
+	          		<a class="nav-item nav-link" style="font-size: 120%" href="{% url 'logout' %}">Logout</a>
+		        {% else %} 
+		          	<a class="nav-item nav-link" style="font-size: 120%" href="{% url 'login' %}"> Login</a>
+		         	<a class="nav-item nav-link" style="font-size: 120%" href="{% url 'register' %}"> Register</a>
+		        {% endif %} 		
+	        </div>
+	      </div>
+	    </div>
+	  </nav>
+	</header>
+	<main role="main" class="container">
+	  <div class="row">
+	    <div class="col-md-8">
+			  {% if messages %}
+			  {% for message in messages %}
+			  <div class="alert alert-{{ message.tags }}">
+			  	{{ message }}
+			  </div>	
+			  {% endfor %}
+			  {% endif %}
+	    	 {% block content %}{% endblock %}
+	    </div>
+	    <div class="col-md-4" style="color: #5f788a;">
+	      <div class="content-section" style="color:#5f788a;">
+	        <h3 class="alert alert-danger" align="CENTER" style="color:red;"><strong>NOTICE!</strong></h3>
+	       	 
+	            <li class="list-group-item list-group-item-light">SEMINAR ON AI (CSE-HALL1) 4PM TOMORROW</li>
+	            <li class="list-group-item list-group-item-light">BE THERE</li>
+	            <!-- <li class="list-group-item list-group-item-light"></li> -->
+	            <li class="list-group-item list-group-item-light">STAY CONNECTED</li>
+	          </ul>
+	     
+	        </p>
+	      </div>
+	    </div>
+	  </div> 
+	</main>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
+	<script type="text/javascript">
+  // Some random colors
+const colors = ["#3CC157", "#2AA7FF", "#1B1B1B", "#FCBC0F", "#F85F36"];
+
+const numBalls = 150;
+const balls = [];
+
+for (let i = 0; i < numBalls; i++) {
+  let ball = document.createElement("div");
+  ball.classList.add("ball");
+  ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+  ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
+  ball.style.top = `${Math.floor(Math.random() * 200)}vh`;
+  ball.style.transform = `scale(${Math.random()})`;
+  ball.style.width = `${Math.random()}em`;
+  ball.style.height = ball.style.width;
+  
+  balls.push(ball);
+  document.body.append(ball);
+}
+
+// Keyframes
+balls.forEach((el, i, ra) => {
+  let to = {
+    x: Math.random() * (i % 2 === 0 ? -11 : 11),
+    y: Math.random() * 12
+  };
+
+  let anim = el.animate(
+    [
+      { transform: "translate(0, 0)" },
+      { transform: `translate(${to.x}rem, ${to.y}rem)` }
+    ],
+    {
+      duration: (Math.random() + 1) * 2000, // random duration
+      direction: "alternate",
+      fill: "both",
+      iterations: Infinity,
+      easing: "ease-in-out"
+    }
+  );
+});
+</script>
+</body>
+</html>
